@@ -1,5 +1,5 @@
 node_modules
-.env.*
+.env
 .neon_local/
 public/readme/module-icon.webp
 public/readme/module-thumbnail.webp
