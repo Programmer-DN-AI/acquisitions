@@ -81,6 +81,7 @@ cp .env.development .env.development.local
 ```
 
 Edit `.env.development.local`:
+
 ```env
 NODE_ENV=development
 PORT=3000
@@ -165,6 +166,7 @@ cp .env.production .env.production.local
 ```
 
 Edit `.env.production.local`:
+
 ```env
 NODE_ENV=production
 PORT=3000
@@ -224,14 +226,16 @@ docker-compose -f docker-compose.prod.yml up -d --scale app=2
 The app automatically detects the environment and configures database connections:
 
 **Development (Neon Local)**:
+
 ```javascript
 // src/config/database.js detects NODE_ENV=development
 // Connects to: postgres://neon:npg@neon-local:5432/neondb
 ```
 
 **Production (Neon Cloud)**:
+
 ```javascript
-// src/config/database.js detects NODE_ENV=production  
+// src/config/database.js detects NODE_ENV=production
 // Connects to: your production DATABASE_URL
 ```
 
@@ -270,6 +274,7 @@ docker build --target production -t acquisitions:prod .
 **Problem**: App can't connect to Neon Local proxy
 
 **Solution**:
+
 ```bash
 # Check Neon Local container status
 docker-compose -f docker-compose.dev.yml logs neon-local
@@ -287,6 +292,7 @@ docker-compose -f docker-compose.dev.yml up -d
 **Problem**: NEON_API_KEY or NEON_PROJECT_ID incorrect
 
 **Solution**:
+
 - Verify credentials at https://console.neon.tech
 - Check API key format: `neon_api_1A2B3C4D...`
 - Ensure project ID format: `proj-abc-123`
@@ -296,6 +302,7 @@ docker-compose -f docker-compose.dev.yml up -d
 **Problem**: Production DATABASE_URL incorrect
 
 **Solution**:
+
 ```bash
 # Test connection string
 docker run --rm postgres:15 psql "your-database-url" -c "SELECT 1;"
@@ -309,6 +316,7 @@ docker-compose -f docker-compose.prod.yml logs app
 **Problem**: File permissions in container
 
 **Solution**:
+
 ```bash
 # Fix Windows file permissions
 docker-compose -f docker-compose.dev.yml down
@@ -320,6 +328,7 @@ docker-compose -f docker-compose.dev.yml up --build
 **Problem**: Code changes not reflected
 
 **Solution**:
+
 ```bash
 # Ensure volumes are mounted correctly
 docker-compose -f docker-compose.dev.yml config
@@ -352,17 +361,20 @@ docker stats acquisitions-app-dev
 ## 📖 Additional Resources
 
 ### Neon Local Documentation
+
 - **Official Guide**: https://neon.com/docs/local/neon-local
 - **API Reference**: https://neon.com/docs/reference/api-reference
 - **Branching Guide**: https://neon.com/docs/guides/branching
 
 ### Docker Best Practices
+
 - **Multi-stage builds**: Optimized image size
 - **Non-root user**: Security hardening
 - **Health checks**: Container monitoring
 - **Resource limits**: Production stability
 
 ### Development Workflow
+
 1. **Feature Development**: Use ephemeral branches via Neon Local
 2. **Integration Testing**: Test with production-like database
 3. **Deployment**: Deploy to production with Neon Cloud
@@ -372,6 +384,7 @@ docker stats acquisitions-app-dev
 ## 🚀 Quick Reference Commands
 
 ### Development
+
 ```bash
 # Start development
 docker-compose -f docker-compose.dev.yml --env-file .env.development.local up -d
@@ -383,7 +396,8 @@ docker-compose -f docker-compose.dev.yml logs -f app
 docker-compose -f docker-compose.dev.yml down
 ```
 
-### Production  
+### Production
+
 ```bash
 # Deploy production
 docker-compose -f docker-compose.prod.yml --env-file .env.production.local up -d
@@ -396,6 +410,7 @@ docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
 ### Utilities
+
 ```bash
 # Clean up all containers and volumes
 docker system prune -a --volumes

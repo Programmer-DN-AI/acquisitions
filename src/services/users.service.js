@@ -13,7 +13,7 @@ export const getAllUsers = async () => {
         email: users.email,
         role: users.role,
         created_at: users.created_at,
-        updated_at: users.updated_at
+        updated_at: users.updated_at,
       })
       .from(users);
 
@@ -25,7 +25,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async id => {
   try {
     const [user] = await db
       .select({
@@ -34,7 +34,7 @@ export const getUserById = async (id) => {
         email: users.email,
         role: users.role,
         created_at: users.created_at,
-        updated_at: users.updated_at
+        updated_at: users.updated_at,
       })
       .from(users)
       .where(eq(users.id, id))
@@ -67,7 +67,7 @@ export const updateUser = async (id, updates) => {
 
     // Prepare updates object
     const updateData = { ...updates };
-    
+
     // If password is being updated, hash it
     if (updateData.password) {
       updateData.password = await hashPassword(updateData.password);
@@ -87,7 +87,7 @@ export const updateUser = async (id, updates) => {
         email: users.email,
         role: users.role,
         created_at: users.created_at,
-        updated_at: users.updated_at
+        updated_at: users.updated_at,
       });
 
     logger.info(`User ${existingUser.email} updated successfully`);
@@ -98,7 +98,7 @@ export const updateUser = async (id, updates) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async id => {
   try {
     // First check if user exists
     const [existingUser] = await db

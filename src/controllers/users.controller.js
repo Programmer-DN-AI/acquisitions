@@ -1,16 +1,26 @@
 import logger from '#config/logger.js';
-import { userIdSchema, updateUserSchema } from '#validations/users.validation.js';
+import {
+  userIdSchema,
+  updateUserSchema,
+} from '#validations/users.validation.js';
 import { formatValidationError } from '#utils/format.js';
-import { getAllUsers, getUserById, updateUser, deleteUser } from '#services/users.service.js';
+import {
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+} from '#services/users.service.js';
 
 export const fetchAllUsers = async (req, res, next) => {
   try {
     // Only admins can fetch all users
     if (req.user.role !== 'admin') {
-      logger.warn(`Access denied for user ${req.user.email} trying to fetch all users`);
+      logger.warn(
+        `Access denied for user ${req.user.email} trying to fetch all users`
+      );
       return res.status(403).json({
         error: 'Access denied',
-        message: 'Only administrators can view all users'
+        message: 'Only administrators can view all users',
       });
     }
 
@@ -19,7 +29,7 @@ export const fetchAllUsers = async (req, res, next) => {
     logger.info(`All users fetched by admin: ${req.user.email}`);
     res.status(200).json({
       message: 'Users retrieved successfully',
-      users
+      users,
     });
   } catch (e) {
     logger.error('Fetch all users error', e);
@@ -34,7 +44,7 @@ export const fetchUserById = async (req, res, next) => {
     if (!validationResult.success) {
       return res.status(400).json({
         error: 'Validation failed',
-        details: formatValidationError(validationResult.error)
+        details: formatValidationError(validationResult.error),
       });
     }
 
@@ -42,10 +52,12 @@ export const fetchUserById = async (req, res, next) => {
 
     // Users can only fetch their own profile unless they are admin
     if (req.user.role !== 'admin' && req.user.id !== id) {
-      logger.warn(`Access denied for user ${req.user.email} trying to fetch user ${id}`);
+      logger.warn(
+        `Access denied for user ${req.user.email} trying to fetch user ${id}`
+      );
       return res.status(403).json({
         error: 'Access denied',
-        message: 'You can only view your own profile'
+        message: 'You can only view your own profile',
       });
     }
 
@@ -54,7 +66,7 @@ export const fetchUserById = async (req, res, next) => {
     logger.info(`User ${id} fetched by ${req.user.email}`);
     res.status(200).json({
       message: 'User retrieved successfully',
-      user
+      user,
     });
   } catch (e) {
     logger.error('Fetch user by ID error', e);
@@ -74,7 +86,7 @@ export const updateUserById = async (req, res, next) => {
     if (!idValidationResult.success) {
       return res.status(400).json({
         error: 'Validation failed',
-        details: formatValidationError(idValidationResult.error)
+        details: formatValidationError(idValidationResult.error),
       });
     }
 
@@ -83,7 +95,7 @@ export const updateUserById = async (req, res, next) => {
     if (!bodyValidationResult.success) {
       return res.status(400).json({
         error: 'Validation failed',
-        details: formatValidationError(bodyValidationResult.error)
+        details: formatValidationError(bodyValidationResult.error),
       });
     }
 
@@ -92,19 +104,23 @@ export const updateUserById = async (req, res, next) => {
 
     // Users can only update their own profile unless they are admin
     if (req.user.role !== 'admin' && req.user.id !== id) {
-      logger.warn(`Access denied for user ${req.user.email} trying to update user ${id}`);
+      logger.warn(
+        `Access denied for user ${req.user.email} trying to update user ${id}`
+      );
       return res.status(403).json({
         error: 'Access denied',
-        message: 'You can only update your own profile'
+        message: 'You can only update your own profile',
       });
     }
 
     // Only admins can change user roles
     if (updates.role && req.user.role !== 'admin') {
-      logger.warn(`Access denied for user ${req.user.email} trying to change role`);
+      logger.warn(
+        `Access denied for user ${req.user.email} trying to change role`
+      );
       return res.status(403).json({
         error: 'Access denied',
-        message: 'Only administrators can change user roles'
+        message: 'Only administrators can change user roles',
       });
     }
 
@@ -113,7 +129,7 @@ export const updateUserById = async (req, res, next) => {
     logger.info(`User ${id} updated by ${req.user.email}`);
     res.status(200).json({
       message: 'User updated successfully',
-      user: updatedUser
+      user: updatedUser,
     });
   } catch (e) {
     logger.error('Update user error', e);
@@ -137,7 +153,7 @@ export const deleteUserById = async (req, res, next) => {
     if (!validationResult.success) {
       return res.status(400).json({
         error: 'Validation failed',
-        details: formatValidationError(validationResult.error)
+        details: formatValidationError(validationResult.error),
       });
     }
 
@@ -148,7 +164,7 @@ export const deleteUserById = async (req, res, next) => {
       logger.warn(`User ${req.user.email} trying to delete themselves`);
       return res.status(400).json({
         error: 'Invalid operation',
-        message: 'You cannot delete your own account'
+        message: 'You cannot delete your own account',
       });
     }
 
@@ -156,7 +172,7 @@ export const deleteUserById = async (req, res, next) => {
 
     logger.info(`User ${id} deleted by admin: ${req.user.email}`);
     res.status(200).json({
-      message: 'User deleted successfully'
+      message: 'User deleted successfully',
     });
   } catch (e) {
     logger.error('Delete user error', e);
