@@ -1,5 +1,30 @@
 node_modules
 .env
+.env.local
 .neon_local/
 public/readme/module-icon.webp
 public/readme/module-thumbnail.webp
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Environment files (keep templates, ignore actual secrets)
+.env.development.local
+.env.production.local
+.env.development
+.env.production
+
+# Logs
+logs/*.log
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+Thumbs.db
